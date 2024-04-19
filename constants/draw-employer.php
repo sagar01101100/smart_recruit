@@ -49,7 +49,8 @@
 <label>Password Confirmation</label>
 <input class="form-control" placeholder="Re-type password again" name="confirmpassword" required type="password"> 
 </div>
-												
+<div class="g-recaptcha" data-sitekey="6LfAF6opAAAAANJyJRbdaxnSLvu4hm_xwAGySyfx">
+</div>											
 </div>
 												
 <input type="hidden" name="acctype" value="102">

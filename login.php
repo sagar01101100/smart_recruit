@@ -4,6 +4,10 @@
 include 'constants/settings.php'; 
 include 'constants/check-login.php';
 ?>
+
+//reCapthca script
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 <head>
 
 	<meta charset="utf-8">
@@ -241,7 +245,8 @@ include 'constants/check-login.php';
                                 <label>Password</label>
                                 <input class="form-control" placeholder="Enter your password" name="password" required type="password"> 
                                 </div>
-												
+						        <div class="g-recaptcha" data-sitekey="6LfAF6opAAAAANJyJRbdaxnSLvu4hm_xwAGySyfx">
+								</div>			
                                 </div>
 
 

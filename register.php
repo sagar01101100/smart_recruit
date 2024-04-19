@@ -4,6 +4,7 @@
 include 'constants/settings.php'; 
 include 'constants/check-login.php';
 ?>
+
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <head>
 
