@@ -5,9 +5,8 @@ include 'constants/settings.php';
 include 'constants/check-login.php';
 ?>
 
-//reCapthca script
+//rethca script
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-
 <head>
 
 	<meta charset="utf-8">
@@ -89,7 +88,13 @@ include 'constants/check-login.php';
 
 </script>
 </head>
-
+<style>
+ .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px; /* Add margin for spacing */
+}
+</style>
 
 <body class="not-transparent-header">
 
@@ -218,6 +223,7 @@ include 'constants/check-login.php';
                                 <?php
 								include 'constants/check_reply.php';	
 								?>
+
                                 <form name="frm" action="app/auth.php" method="POST" autocomplete="off">
                                 <div class="login-box-wrapper">
 							
@@ -234,36 +240,36 @@ include 'constants/check-login.php';
 
                                 <div class="form-group"> 
                                 <label>Email Address</label>
-                                <input class="form-control" placeholder="Enter your email address" name="email" required type="text"> 
+
+								<input id="email" class="form-control" placeholder="Enter your email address" name="email" required type="text">
+								<span id="error" class="error"></span>
+								
+
+                                <!-- <input class="form-control" placeholder="Enter your email address" name="email" required type="text">  -->
                                 </div>
 												
                                  </div>
 												
-                                <div class="col-sm-12 col-md-12">
-												
+                                <div class="col-sm-12 col-md-12">				
                                 <div class="form-group"> 
                                 <label>Password</label>
-                                <input class="form-control" placeholder="Enter your password" name="password" required type="password"> 
-                                </div>
-						        <div class="g-recaptcha" data-sitekey="6LfAF6opAAAAANJyJRbdaxnSLvu4hm_xwAGySyfx">
-								</div>			
-                                </div>
-
-
-						
+                                <input id="password" class="form-control" placeholder="Enter your password" name="password" required type="password"> 
+								<span id="passwordError" class="error"></span>
+                                </div>				
+								<div class="g-recaptcha" data-sitekey="6LfAF6opAAAAANJyJRbdaxnSLvu4hm_xwAGySyfx">
+								</div>
+								
 					          	<div class="col-sm-12 col-md-12">
 							    <div class="login-box-link-action">
 								<a data-toggle="modal" onclick = "reset_text()" href="#forgotPasswordModal">Forgot password?</a> 
 							    </div>
-						      </div>	
-
-											
-												
-												
-</div>
-
-</div>
-
+						      </div>
+						      </div>
+							  <div class="modal-footer text-center">
+							  <button type="submit" class="btn btn-primary" onclick = > Login with Goolge</button>
+							</div>
+						</div>
+					</div>
 <div class="modal-footer text-center">
 <button type="submit" class="btn btn-primary">Login</button>
 </div>
@@ -271,8 +277,85 @@ include 'constants/check-login.php';
 </div>
 </form>
 
-							  			<div id="forgotPasswordModal" class="modal fade login-box-wrapper" tabindex="-1" style="display: none;" data-backdrop="static" data-keyboard="false" data-replace="true">
-			
+<div id="forgotPasswordModal" class="modal fade login-box-wrapper" tabindex="-1" style="display: none;" data-backdrop="static" data-keyboard="false" data-replace="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title text-center">Restore your forgotten password</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row gap-20">
+            <div class="col-sm-12 col-md-12">
+                <p class="mb-20">Enter the email address associated with your account, and we will send you the link to reset your password</p>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <div class="form-group"> 
+                    <label>Email Address</label>
+                    <input id="mymail" autocomplete="off" name="email" class="form-control" placeholder="Enter your email address" type="email" required> 
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <div class="login-box-box-action">
+                    Return to <a data-dismiss="modal">Log-in</a>
+                    <p id="data"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer text-center">
+        <div class="col-sm-12 col-md-12">
+            <div class="login-box-link-action">
+                <a href="#" onclick="send_otp()" >Restore</a> 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+			<div id="enterOTP" class="modal fade login-box-wrapper" tabindex="-1" style="display: none;" data-backdrop="static" data-keyboard="false" data-replace="true">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title text-center"><span?>OTP Verification</span></h4>
+				</div>
+
+				<div class="modal-body">
+					<div class="row gap-20">
+						
+						<div class="col-sm-12 col-md-12">
+						</div>
+						
+						<div class="col-sm-12 col-md-12">
+				
+							<div class="form-group"> 
+
+								<label>Enter OTP</label>
+								<input id="mymail" autocomplete="off" name="email" class="form-control" placeholder="Enter OTP here" type="email" required> 
+							</div>
+						
+						</div>
+						
+						<div class="col-sm-12 col-md-12">
+							<div class="login-box-box-action">
+								Return to <a data-dismiss="modal">Log-in</a>
+								<p id="data"></p>
+							</div>
+							
+						</div>
+						
+					</div>
+				</div>
+				
+				<div class="modal-footer text-center">
+					<!-- <button  onclick="update(mymail.value)"  type="submit" class="btn btn-primary">Verify</button> -->
+					<button onclick="createNewPass()" type="button" class="btn btn-primary">Verify</button>
+
+					<button type="button" data-dismiss="modal" class="btn btn-primary btn-inverse">Close</button>
+				</div>
+		
+			</div>
+
+			<div id="resetPassword" class="modal fade login-box-wrapper" tabindex="-1" style="display: none;" data-backdrop="static" data-keyboard="false" data-replace="true">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					<h4 class="modal-title text-center">Restore your forgotten password</h4>
@@ -294,8 +377,6 @@ include 'constants/check-login.php';
 							</div>
 						
 						</div>
-
-
 						
 						<div class="col-sm-12 col-md-12">
 							<div class="login-box-box-action">
@@ -456,6 +537,98 @@ include 'constants/check-login.php';
 <script type="text/javascript" src="js/jquery.introLoader.min.js"></script>
 <script type="text/javascript" src="js/jquery.responsivegrid.js"></script>
 <script type="text/javascript" src="js/customs.js"></script>
+
+
+
+//error
+
+<script>
+		document.getElementById("email").addEventListener("blur", validateEmail);
+		document.getElementById("password").addEventListener("blur", validatePassword);
+
+        // Function to validate name input
+        function validateName() {
+            var name = document.getElementById("name").value;
+            var nameError = document.getElementById("nameError");
+
+            if (name.trim() === "") {
+                nameError.textContent = "Name is required";
+                return false;
+            } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+                nameError.textContent = "Invalid name. Only letters and spaces allowed.";
+                return false;
+            } else {
+                nameError.textContent = "";
+                return true;
+            }
+        }
+
+
+        // Function to validate email input
+        function validateEmail() {
+            var email = document.getElementById("email").value;
+            var emailError = document.getElementById("error");
+
+			console.log(emailError.textContent)
+            if (email.trim() === "") {
+                emailError.textContent = "Email is required";
+                return false;
+            } else if (!/\S+@\S+\.\S+/.test(email)) {
+                emailError.textContent = "Invalid email format";
+                return false;
+            } else {
+                emailError.textContent = "";
+                return true;
+            }
+			// console.log(email)
+        }
+
+		function validatePassword() {
+            var password = document.getElementById("password").value;
+            var passwordError = document.getElementById("passwordError");
+
+            if (password === "") {
+                passwordError.textContent = "Password is required";
+                return false;
+            } else if (password.length < 8 || password.length > 20) {
+                passwordError.textContent = "Password must be between 8 and 20 characters";
+                return false;
+            } else if (!/[A-Z]/.test(password)) {
+                passwordError.textContent = "Password must contain at least one uppercase letter.";
+                return false;
+            } else if(!/[a-z]/.test(password)){
+				passwordError.textContent = "Password must contain at least one lowercase letter.";
+                return false;
+			} else if(!/\d/.test(password)){
+				passwordError.textContent = "Password must contain at least one Digit.";
+                return false;
+			} else if(!/[!@#$%^&*]/.test(password)){
+				passwordError.textContent = "Password must contain at least one Special Character.";
+                return false;
+			}
+			else {
+                passwordError.textContent = "";
+                return true;
+            }
+        }
+
+        // Event listener for form submission
+        document.getElementById("myForm").addEventListener("submit", function(event) {
+            if (!validateName() || !validateEmail()) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+    </script>
+
+
+<script>
+    function send_otp() {
+        var email = document.getElementById('mymail').value;
+        window.location.href = 'send_otp.php?email=' + email;
+    }
+</script>
+
+
 
 
 </body>
