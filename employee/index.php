@@ -51,7 +51,11 @@ header("location:../");
 	<link rel="stylesheet" href="../icons/flaticon-ventures/flaticon-ventures.css">
 
 	<link href="../css/style.css" rel="stylesheet">
-	
+	<style>
+        .error{
+            color = red;
+        }
+    </style>
 </head>
   <style>
   
@@ -220,13 +224,15 @@ header("location:../");
                 <div class="col-sm-6 col-md-4">
                     <div class="form-group">
                         <label>First Name *</label>
-                        <input name="fname" required type="text" class="form-control" value="<?php echo "$myfname"; ?>" placeholder="Enter your first name">
+                        <input id="fname" name="fname" required type="text" class="form-control" value="<?php echo "$myfname"; ?>" placeholder="Enter your first name">
+                        <span id="ferror" class="error"></span>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4">
                     <div class="form-group">
                         <label>Last Name *</label>
-                        <input name="lname" required type="text" class="form-control" value="<?php echo "$mylname"; ?>" placeholder="Enter your last name">
+                        <input id="lname" name="lname" required type="text" class="form-control" value="<?php echo "$mylname"; ?>" placeholder="Enter your last name">
+                        <span id="lerror" class="error"></span>
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -294,7 +300,8 @@ header("location:../");
                 <div class="col-sm-6 col-md-4">
                     <div class="form-group">
                         <label>Email *</label>
-                        <input type="email" name="email" required class="form-control" value="<?php echo "$myemail"; ?>" placeholder="Enter your email address" required>
+                        <input id="email" type="email" name="email" required class="form-control" value="<?php echo "$myemail"; ?>" placeholder="Enter your email address" required>
+                        <span id="error" class="error"></span>
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -303,10 +310,12 @@ header("location:../");
                         <label>Education Level *</label>
                     </div>
                     <div class="col-sm-6 col-md-4">
-                        <input value="<?php echo "$myedu"; ?>" name="education" type="text" required class="form-control" placeholder="Eg: Diploma, Degree...etc" required>
+                        <input id="education_level" value="<?php echo "$myedu"; ?>" name="education" type="text" required class="form-control" placeholder="Eg: Diploma, Degree...etc" required>
+                        <span id="ferror" class="error"></span>
                     </div>
                     <div class="col-sm-6 col-md-4">
-                        <input value="<?php echo "$mytitle"; ?>" name="title" required type="text" class="form-control mb-15" placeholder="Eg: Computer Science, IT...etc" required>
+                        <input id="program" value="<?php echo "$mytitle"; ?>" name="title" required type="text" class="form-control mb-15" placeholder="Eg: Computer Science, IT...etc" required>
+                        <span id="ferror" class="error"></span>
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -330,13 +339,16 @@ header("location:../");
                 <div class="col-sm-6 col-md-4">
                     <div class="form-group">
                         <label>Street </label>
-                        <input name="street" required type="text" class="form-control" value="<?php echo "$mystreet"; ?>">
+                        <input id="street" name="street" required type="text" class="form-control" value="<?php echo "$mystreet"; ?>">
+                        <span id="ferror" class="error"></span>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4">
                     <div class="form-group">
                         <label>Zip Code </label>
-                        <input name="zip" required type="text" class="form-control" value="<?php echo "$myzip"; ?>">
+                        <input id="zipcode" name="zip" required type="text" class="form-control" value="<?php echo "$myzip"; ?>">
+                        <span id="zipError" class="error"></span>
+                        
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -370,14 +382,17 @@ header("location:../");
                 <div class="col-sm-6 col-md-4">
                     <div class="form-group">
                         <label>Phone Number *</label>
-                        <input type="text" name="phone" required class="form-control" value="<?php echo "$myphone"; ?>" required>
+                        <input id="phoneNumber" type="text" name="phone" placeholder="Enter your 10 digit phone number" required class="form-control" value="<?php echo "$myphone"; ?>" required>
+                        <span id="phoneError" class="error"></span>
+                        
                     </div>
                 </div>
                 <div class="clear"></div>
                 <div class="col-sm-12 col-md-12">
                     <div class="form-group bootstrap3-wysihtml5-wrapper">
                         <label>About me</label>
-                        <textarea name="about" class="bootstrap3-wysihtml5 form-control" placeholder="Enter your short description ..." style="height: 200px;"><?php echo "$mydesc"; ?></textarea>
+                        <textarea id="aboutText" name="about" class="bootstrap3-wysihtml5 form-control" placeholder="Enter your short description ..." style="height: 200px;"><?php echo "$mydesc"; ?></textarea>
+                        <span id="aboutError" class="error"></span>
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -547,6 +562,126 @@ header("location:../");
 <script type="text/javascript" src="../js/jquery.responsivegrid.js"></script>
 <script type="text/javascript" src="../js/customs.js"></script>
 
+<script>
+	document.getElementById("fname").addEventListener("blur", validateFName);
+    document.getElementById("lname").addEventListener("blur", validateLName);
+    document.getElementById("email").addEventListener("blur", validateEmail);
+    document.getElementById("phoneNumber").addEventListener("blur", validatePhoneNumber);
+    document.getElementById("zipcode").addEventListener("blur", validateZipcode);
+    // document.getElementById("aboutText").addEventListener("blur", validateAbout);
+    
+    
+    function validateFName() {
+            var name = document.getElementById("fname").value;
+            var nameError = document.getElementById("ferror");
+            if (name.trim() === "") {
+                nameError.textContent = "Name is required";
+                lNameError.textContent = "Name is required";
+                return false;
+            } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+                nameError.textContent = "Invalid name. Only letters and spaces allowed.";
+                // lNameError.textContent = "Invalid name. Only letters and spaces allowed.";
+                return false;
+            } else {
+                nameError.textContent = "";
+                return true;
+            }
+        }
+        function validateLName() {
+            var name = document.getElementById("lname").value;
+            var nameError = document.getElementById("lerror");
+            if (name.trim() === "") {
+                nameError.textContent = "Name is required";
+                lNameError.textContent = "Name is required";
+                return false;
+            } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+                nameError.textContent = "Invalid name. Only letters and spaces allowed.";
+                // lNameError.textContent = "Invalid name. Only letters and spaces allowed.";
+                return false;
+            } else {
+                nameError.textContent = "";
+                return true;
+            }
+        }
+    function validateEmail(){
+        var email = document.getElementById("email").value;
+        var emailError = document.getElementById("error");
+
+        // console.log(email)
+        if (email.trim() === "") {
+            emailError.textContent = "Email is required";
+            return false;
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            emailError.textContent = "Invalid email format";
+            return false;
+        } else {
+            emailError.textContent = "";
+            return true;
+        }
+        // console.log(email)
+    }
+
+    function validatePhoneNumber(){
+    var phoneNumber = document.getElementById("phoneNumber").value;
+    var phoneNumberError = document.getElementById("phoneError");
+
+    if (phoneNumber === "") {
+        phoneNumberError.textContent = "Phone number is required";
+        return false;
+    } else if (!/^\d{10}$/.test(phoneNumber)) {
+        phoneNumberError.textContent = "Phone number must contain exactly 10 digits.";
+        return false;
+    } else {
+        phoneNumberError.textContent = "";
+        return true;
+    }
+}
+
+function validateZipcode(){
+    var phoneNumber = document.getElementById("zipcode").value;
+    var phoneNumberError = document.getElementById("zipError");
+
+    if (phoneNumber === "") {
+        // phoneNumberError.textContent = "Zip Code is required.";
+        return true;
+    } else if (!/^\d{6}$/.test(phoneNumber)) {
+        phoneNumberError.textContent = "Enter Correct Zip Code.";
+        return false;
+    } else {
+        phoneNumberError.textContent = "";
+        return true;
+    }
+}
+
+// function validateAbout(){
+//     var aboutText = document.getElementById("aboutText").value;
+//     var aboutError = document.getElementById("aboutError");
+
+//     if (aboutText === "") {
+//         aboutError.textContent = "About field is required";
+//         return false;
+//     } else if (aboutText.length < 100) {
+//         aboutError.textContent = "About field must contain at least 100 characters.";
+//         return false;
+//     } else {
+//         aboutError.textContent = "";
+//         return true;
+//     }
+
+// }
+
+// Attach event listener when the DOM is loaded
+
+
+
+
+
+
+    
+
+    
+
+</script>
 
 </body>
 
