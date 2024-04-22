@@ -44,7 +44,13 @@ include 'constants/check-login.php';
 	<link rel="stylesheet" href="icons/flaticon-ventures/flaticon-ventures.css">
 
 	<link href="css/style.css" rel="stylesheet">
-
+	<style>
+ .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px; /* Add margin for spacing */
+}
+</style>
 </head>
 
 
